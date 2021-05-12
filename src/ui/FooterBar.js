@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles/";
 
 import { yellow } from "@material-ui/core/colors/";
 
-import FastfoodIcon from "@material-ui/icons/Fastfood";
+import PizzaIcon from "@material-ui/icons/LocalPizza";
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -42,8 +42,8 @@ export default function FooterBar() {
         >
           Rafael J.
         </a>{" "}
-        com um combo acompanhado de fritas{" "}
-        <FastfoodIcon fontSize="small"></FastfoodIcon>
+        fueled by 2 pizzas de calabresa com catupiry{" "}
+        <PizzaIcon fontSize="small"></PizzaIcon>
       </Typography>
     </Toolbar>
   );
