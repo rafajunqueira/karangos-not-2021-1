@@ -1,16 +1,19 @@
-import "fontsource-roboto";
-import { makeStyles, Box } from "@material-ui/core";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { pink, yellow } from "@material-ui/core/colors/";
-
-import TopBar from "./ui/TopBar";
-import FooterBar from "../src/ui/FooterBar";
-import KarangosForm from "../src/routed/KarangosForm";
-import KarangosList from "../src/routed/KarangosList";
-
+import React from "react";
+import TopBar from "./ui/TopBar.js";
+import FooterBar from "./ui/FooterBar.js";
+import {
+  createMuiTheme,
+  ThemeProvider,
+  makeStyles,
+} from "@material-ui/core/styles";
+import { Box } from "@material-ui/core";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import yellow from "@material-ui/core/colors/yellow";
+import pink from "@material-ui/core/colors/pink";
+import KarangosList from "./routed/KarangosList.js";
+import KarangosForm from "./routed/KarangosForm.js";
 
-let theme = createMuiTheme({
+const theme = createMuiTheme({
   palette: {
     type: "dark",
     primary: {
@@ -24,46 +27,64 @@ let theme = createMuiTheme({
 
 const useStyles = makeStyles((theme) => ({
   box: {
-    paddingBottom: "1rem",
-    marginBottom: "0.2rem",
-    width: "100%vh",
-    minHeight: "745px",
-    borderTop: "0.3rem solid rgba(0,0,0,0.1)",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.background.default,
+    minHeight: "100vh",
+    paddingBottom: "42px",
   },
   routed: {
     padding: "24px",
     color: theme.palette.text.primary,
-    fontFamily: theme.typography.fontfamily,
+    fontFamily: theme.typography.fontFamily,
   },
 }));
 
-function App() {
+function Main() {
   const classes = useStyles();
   return (
+    <Box className={classes.box}>
+      <BrowserRouter>
+        <TopBar />
+        <Box id="routed" className={classes.routed}>
+          <Switch>
+            <Route path="/list">
+              <KarangosList />
+            </Route>
+            <Route path="/new">
+              <KarangosForm />
+            </Route>
+          </Switch>
+        </Box>
+        <FooterBar />
+      </BrowserRouter>
+    </Box>
+  );
+}
+
+function App() {
+  return (
     <ThemeProvider theme={theme}>
-      <div className="App">
-        <>
-          <Box className={classes.box}>
-            <BrowserRouter>
-              <TopBar />
-              <Box className={classes.routed} id="routed">
-                <Switch>
-                  <Route path="/list">
-                    <KarangosList />
-                  </Route>
-                  <Route path="/new">
-                    <KarangosForm />
-                  </Route>
-                </Switch>
-              </Box>
-              <FooterBar />
-            </BrowserRouter>
-          </Box>
-        </>
-      </div>
+      <Main />
     </ThemeProvider>
   );
 }
 
 export default App;
+
+/*<div className="App">
+			<header className="App-header">
+				<h1>Projeto Karangos</h1>
+				<Button variant="contained" color="primary">Clique aqui!</Button>
+				<img src={logo} className="App-logo" alt="logo" />
+				<p>
+					Edit <code>src/App.js</code> and save to reload.
+				</p>
+				<a
+					className="App-link"
+					href="https://reactjs.org"
+					target="_blank"
+					rel="noopener noreferrer"
+				>
+					Learn React
+				</a>
+			</header>
+		</div>*/

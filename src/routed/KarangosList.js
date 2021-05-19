@@ -17,6 +17,9 @@ import EditIcon from "@material-ui/icons/Edit";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
+import ConfirmDialog from "../ui/ConfirmDialog";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -47,30 +50,83 @@ export default function KarangosList() {
 
   // É importante que esta variavel de estado seja inicializada com um vetor vazio
   const [karangos, setKarangos] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [deletable, setDeletable] = useState(); // código a ser deletado
+  const [snackState, setSnackState] = useState({
+    open: false,
+    severity: "success",
+    message: "Karango excluído com sucesso.",
+  });
 
-  useEffect(
-    () => {
-      const getData = async () => {
-        // tudo o que está em try{} será tentado
-        try {
-          let response = await axios.get(
-            "https://api.faustocintra.com.br/karangos"
-          );
-          setKarangos(response.data);
-        } catch (error) {
-          // caso de erro no try{}, vai cair no bloco catch{}, nesse caso, retornando o erro no console
-          console.error(error);
-        }
-      };
+  function handleDiagloClose(result) {
+    setDialogOpen(false);
+    deleteItem();
+  }
 
+  function handleDeleteClick(id) {
+    setDeletable(id);
+    setDialogOpen(true);
+  }
+
+  async function deleteItem() {
+    try {
+      await axios.delete(
+        `https://api.faustocintra.com.br/karangos/${deletable}`
+      );
       getData();
-      // Quando a dependencia de um useEffect é um vetor vazio, isso indica
-    },
-    /* aqui=> */ []
-  ); // que será execulado apenas uma vez, na inicialização do componente
+      setSnackState({ ...snackState, open: true }); // exibe a snackbar
+    } catch (error) {
+      setSnackState({
+        open: true,
+        severity: "error",
+        message: "ERRO: " + error.message,
+      });
+    }
+  }
+
+  async function getData() {
+    // tudo o que está em try{} será tentado
+    try {
+      let response = await axios.get(
+        "https://api.faustocintra.com.br/karangos"
+      );
+      if (response.data.length) setKarangos(response.data);
+    } catch (error) {
+      // caso de erro no try{}, vai cair no bloco catch{}, nesse caso, retornando o erro no console
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
+  // Quando a dependencia de um useEffect é um vetor vazio, isso indica
+  // que será execulado apenas uma vez, na inicialização do componente
+
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+  function handleSnackClose(event, reason) {
+    // evita que a snackbar seja fechada clicando fora dela
+    if (reason === "clickaway") return;
+    setSnackState({ ...snackState, open: false });
+  }
 
   return (
     <>
+      <ConfirmDialog isOpen={dialogOpen} onClose={handleDiagloClose}>
+        Deseja realmente exluir esse karango?
+      </ConfirmDialog>
+      <Snackbar
+        open={snackState.open}
+        autoHideDuration={6000}
+        onClose={handleSnackClose}
+      >
+        <Alert onClose={handleSnackClose} severity={snackState.severity}>
+          {snackState.message}
+        </Alert>
+      </Snackbar>
       <h1>Listagem de karangos</h1>
       <Toolbar className={classes.toolbar}>
         <Button
@@ -132,7 +188,10 @@ export default function KarangosList() {
                 </TableCell>
                 <TableCell align="center">
                   <IconButton aria-label="delete">
-                    <DeleteIcon color="error" />
+                    <DeleteIcon
+                      color="error"
+                      onClick={() => handleDeleteClick(karango.id)}
+                    />
                   </IconButton>
                 </TableCell>
               </TableRow>
