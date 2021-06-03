@@ -1,9 +1,7 @@
 import React from "react";
 import { Typography, Toolbar } from "@material-ui/core/";
 import { makeStyles } from "@material-ui/core/styles/";
-
 import { yellow } from "@material-ui/core/colors/";
-
 import PizzaIcon from "@material-ui/icons/LocalPizza";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,7 +41,7 @@ export default function FooterBar() {
         >
           Rafael J.
         </a>{" "}
-        fueled by 2 pizzas de calabresa com catupiry{" "}
+        fueled by 3 pizzas de calabresa com catupiry{" "}
         <PizzaIcon fontSize="small"></PizzaIcon>
       </Typography>
     </Toolbar>

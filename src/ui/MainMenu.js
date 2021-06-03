@@ -60,6 +60,16 @@ export default function MainMenu() {
             Cadastrar novo karango
           </Link>
         </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link className={classes.menuLink} to="/listcliente">
+            Listagem de clientes
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <Link className={classes.menuLink} to="/newcliente">
+            Cadastrar novo cliente
+          </Link>
+        </MenuItem>
       </Menu>
     </div>
   );

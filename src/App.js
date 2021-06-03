@@ -10,8 +10,12 @@ import { Box } from "@material-ui/core";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import yellow from "@material-ui/core/colors/yellow";
 import pink from "@material-ui/core/colors/pink";
-import KarangosList from "./routed/KarangosList.js";
+//Karangos
+import KarangosList from "./routed/KarangosList2.js";
 import KarangosForm from "./routed/KarangosForm.js";
+// CLientes
+import ClientesList from "./routed/ClientesList2";
+import ClientesForm from "./routed/ClientesForm";
 
 const theme = createMuiTheme({
   palette: {
@@ -51,6 +55,12 @@ function Main() {
             </Route>
             <Route path="/new">
               <KarangosForm />
+            </Route>
+            <Route path="/listcliente">
+              <ClientesList />
+            </Route>
+            <Route path="/newcliente">
+              <ClientesForm />
             </Route>
           </Switch>
         </Box>
