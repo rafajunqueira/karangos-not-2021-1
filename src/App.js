@@ -10,12 +10,19 @@ import { Box } from "@material-ui/core";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import yellow from "@material-ui/core/colors/yellow";
 import pink from "@material-ui/core/colors/pink";
+
+//HomePage (Prova 2)
+
+import HomePage from "./routed/HomePage";
+
 //Karangos
 import KarangosList from "./routed/KarangosList2.js";
 import KarangosForm from "./routed/KarangosForm.js";
 // CLientes
 import ClientesList from "./routed/ClientesList2";
 import ClientesForm from "./routed/ClientesForm";
+
+
 
 const theme = createMuiTheme({
   palette: {
@@ -50,6 +57,9 @@ function Main() {
         <TopBar />
         <Box id="routed" className={classes.routed}>
           <Switch>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
             <Route path="/list">
               <KarangosList />
             </Route>
@@ -79,22 +89,3 @@ function App() {
 }
 
 export default App;
-
-/*<div className="App">
-			<header className="App-header">
-				<h1>Projeto Karangos</h1>
-				<Button variant="contained" color="primary">Clique aqui!</Button>
-				<img src={logo} className="App-logo" alt="logo" />
-				<p>
-					Edit <code>src/App.js</code> and save to reload.
-				</p>
-				<a
-					className="App-link"
-					href="https://reactjs.org"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Learn React
-				</a>
-			</header>
-		</div>*/
